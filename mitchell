@@ -1,15 +1,33 @@
 #!/bin/bash
 
-# My first script
+# A bash script for awesomeness
 
-#echo "Hello World!"
+version_number=0.1.0
+
+about() {
+	echo 'awesomeness'
+}
 
 beer() {
 	echo 'beer'
 }
 
-about() {
-	echo 'awesomeness'
+help() {
+	cat <<HELP
+	
+	OPTIONS:
+		--help
+		--version
+	
+HELP
+}
+
+show_commands() {
+	echo 'COMMANDS'
+}
+
+version() {
+	echo "mitchell version $version_number"
 }
 
 check_args() {
