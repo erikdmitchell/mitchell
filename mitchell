@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# My first script
+
+#echo "Hello World!"
+
+beer() {
+	echo 'beer'
+}
+
+about() {
+	echo 'awesomeness'
+}
+
+check_args() {
+	if [ ! -z "$1" ]; then 
+		"$1"
+	fi
+}
+
+mitchell_text() {
+	cat <<MITCHELLTEXT
+  __  __ _ _       _          _ _ 
+ |  \/  (_) |_ ___| |__   ___| | |
+ | |\/| | | __/ __| '_ \ / _ \ | |
+ | |  | | | || (__| | | |  __/ | |
+ |_|  |_|_|\__\___|_| |_|\___|_|_|
+
+MITCHELLTEXT
+}
+
+main() {
+	mitchell_text
+                                  
+	check_args "$@"
+}
+
+if [[ "${BASH_SOURCE[0]}" = "${0}" ]]; then
+	main "$@"
+fi
