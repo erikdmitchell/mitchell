@@ -5,11 +5,31 @@
 version_number=0.1.0
 
 about() {
+	mitchell_logo
 	echo 'awesomeness'
 }
 
 beer() {
 	echo 'beer'
+}
+
+fun() {
+	#FILENAME = 'file.txt'
+	
+	echo -n "Enter your name and press [ENTER]: "
+	read name
+	
+	echo "Welcome $name"
+	
+	echo -n "Can we store your information [y/n]: "
+	read store
+	
+	if [ $store == "y" ]; then
+		echo "Storing data..."
+		#$store >> file.txt
+	else 
+		echo "Bummer"
+	fi
 }
 
 help() {
@@ -23,10 +43,11 @@ HELP
 }
 
 show_commands() {
-	echo 'COMMANDS'
+	echo "COMMANDS"
 }
 
 version() {
+	mitchell_logo
 	echo "mitchell version $version_number"
 }
 
@@ -36,7 +57,7 @@ check_args() {
 	fi
 }
 
-mitchell_text() {
+mitchell_logo() {
 	cat <<MITCHELLTEXT
   __  __ _ _       _          _ _ 
  |  \/  (_) |_ ___| |__   ___| | |
@@ -47,9 +68,7 @@ mitchell_text() {
 MITCHELLTEXT
 }
 
-main() {
-	mitchell_text
-                                  
+main() {                          
 	check_args "$@"
 }
 
