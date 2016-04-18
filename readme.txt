@@ -1,0 +1,1 @@
+$ sudo cp -r mitchell /usr/local/bin

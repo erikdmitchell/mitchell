@@ -1,0 +1,37 @@
+#!/bin/bash
+
+appslist=('Mail' 'Messages' 'Coda' 'Google Chrome' 'Tower' 'xScope' 'Stickies' 'TweetDeck')
+
+apps=(
+	'/Applications/Mail.app'
+	'/Applications/Messages.app'
+	'/Applications/Coda 2.app'
+	'/Applications/Google Chrome.app'
+	'/Applications/Tower.app'
+	'/Applications/xScope.app'
+	'/Applications/Stickies.app'
+	'/Applications/TweetDeck.app'
+)
+
+echo
+echo "This script opens several applications."
+echo
+echo "Programs to open:"
+echo
+
+for i in "${appslist[@]}"
+do
+   echo $i
+done
+
+echo
+echo "Opening up start up applications…"
+echo
+
+for ((i = 0; i < ${#apps[@]}; i++))
+do
+    open -a "${apps[$i]}"
+done
+
+echo
+echo "Finished. Enjoy!"
