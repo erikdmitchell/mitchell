@@ -13,39 +13,6 @@ beer() {
 	echo 'beer'
 }
 
-fun() {
-	#FILENAME = 'file.txt'
-	
-	echo -n "Enter your name and press [ENTER]: "
-	read name
-	
-	#echo "Welcome $name"
-	
-	echo -n "Can we store your information? [y/n] "
-	read store
-	
-	if [ $store == "y" ]; then
-		echo "Storing data..."
-		echo $name >> file.txt
-	else 
-		echo "Bummer"
-	fi
-	
-	echo -n "Would you like to see our friends? [y/n]"
-	read friends
-	
-	if [ $friends == "y" ]; then
-		echo "Our Friends:"
-		
-		while read line           
-		do           
-		    echo -e "$line"           
-		done < file.txt  
-	else 
-		echo "Thanks for nothing!"
-	fi	
-}
-
 help() {
 	cat <<HELP
 	
