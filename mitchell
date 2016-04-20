@@ -78,22 +78,31 @@ startup_add() {
 		echo "Storing data..."
 		echo "$name | $path" >> $file
 		echo
-		echo 'Startup Updated!'
+		echo "Startup Updated!"
 	fi
 }
 
-load_startup_apps() {
+startup_remove() {
 	dir=`dirname $0`
-	startupfile="$dir/_startup.txt"
+	file="$dir/_startup.txt"
 
-	let i=0
-	while IFS='\n' read -r line_data; do
-		IFS='| ' read -r -a array <<< ${line_data} # split our line by the pipe (|)
-		
-		startup_appslist[i]="${array[0]}"
-		startup_apps[i]="${array[1]}"
-		((++i))		
-	done < $startupfile
+	echo
+	echo "Mitchell Startup Remove"
+	echo
+	echo -n "Enter your App Name: "
+	read name
+
+	#echo -n "Enter your App Path: "
+	#read path
+	
+	if [ "$name" == "" ]; then
+		echo "You must enter an App name to remove. Please try again."
+	else
+		sed "/$name/d" $file
+		echo "$name removed."
+	fi
+	
+	
 }
 
 startup_config() {
@@ -135,6 +144,20 @@ startup() {
 	
 	echo
 	echo "Finished. Enjoy!"	
+}
+
+load_startup_apps() {
+	dir=`dirname $0`
+	startupfile="$dir/_startup.txt"
+
+	let i=0
+	while IFS='\n' read -r line_data; do
+		IFS='| ' read -r -a array <<< ${line_data} # split our line by the pipe (|)
+		
+		startup_appslist[i]="${array[0]}"
+		startup_apps[i]="${array[1]}"
+		((++i))		
+	done < $startupfile
 }
 
 show_commands() {
