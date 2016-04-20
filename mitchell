@@ -98,7 +98,7 @@ startup_remove() {
 	if [ "$name" == "" ]; then
 		echo "You must enter an App name to remove. Please try again."
 	else
-		sed "/$name/d" $file
+		sed -i '' "/$name/d" $file
 		echo "$name removed."
 	fi
 	
