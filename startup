@@ -1,10 +1,11 @@
 #!/bin/bash
 
-appslist=('Mail' 'Messages' 'Coda' 'Google Chrome' 'Tower' 'xScope' 'Stickies' 'TweetDeck')
+appslist=('Mail' 'Messages' 'Calendar' 'Coda' 'Google Chrome' 'Tower' 'xScope' 'Stickies' 'TweetDeck')
 
 apps=(
 	'/Applications/Mail.app'
 	'/Applications/Messages.app'
+	'/Applications/Calendar.app'
 	'/Applications/Coda 2.app'
 	'/Applications/Google Chrome.app'
 	'/Applications/Tower.app'
