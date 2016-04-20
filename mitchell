@@ -2,7 +2,9 @@
 
 # A bash script for awesomeness
 
-version_number=0.1.0
+version_number=0.1.1
+declare -a startup_appslist
+declare -a startup_apps
 
 about() {
 	mitchell_logo
@@ -20,9 +22,6 @@ For a list of commands type $ mitchell show_commands
 	
 HELP
 }
-
-declare -a startup_appslist
-declare -a startup_apps
 
 startup_add() {
 	dir=`dirname $0`
