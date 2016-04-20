@@ -56,29 +56,32 @@ help() {
 HELP
 }
 
+declare -a startup_appslist
+declare -a startup_apps
+
 startup_add() {
 	dir=`dirname $0`
 	file="$dir/_startup.txt"
+#check_args "$@"
+echo "startup config"
+echo "$@"
 
 	echo	
-	echo -n "Enter your App Name: "
-	read name
+#	echo -n "Enter your App Name: "
+#	read name
 
-	echo -n "Enter your App Path: "
-	read path
+#	echo -n "Enter your App Path: "
+#	read path
 	
-	if [ "$name" == "" ] || [ "$path" == "" ]; then
-		echo "One of your inputs was blank. Please try again."
-	else
-		echo "Storing data..."
-		echo "$name | $path" >> $file
-		echo
-		echo 'Startup Updated!'
-	fi
+#	if [ "$name" == "" ] || [ "$path" == "" ]; then
+#		echo "One of your inputs was blank. Please try again."
+#	else
+#		echo "Storing data..."
+#		echo "$name | $path" >> $file
+#		echo
+#		echo 'Startup Updated!'
+#	fi
 }
-
-declare -a startup_appslist
-declare -a startup_apps
 
 load_startup_apps() {
 	dir=`dirname $0`
@@ -94,13 +97,17 @@ load_startup_apps() {
 	done < $startupfile
 }
 
-startup_read() {
+startup_config() {
 	load_startup_apps
 	
 	echo
-	printf "${startup_appslist}"
+	echo "Mitchell Startup Config"
 	echo
-	printf "${startup_apps}"
+	echo "Apps List:"
+	printf "${startup_appslist}\n"
+	echo 
+	echo "Apps: "
+	printf "${startup_apps}\n"
 	echo
 }
 
