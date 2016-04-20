@@ -77,26 +77,30 @@ startup_add() {
 	fi
 }
 
-startup_read() {
+declare -a startup_appslist
+declare -a startup_apps
+
+load_startup_apps() {
 	dir=`dirname $0`
 	startupfile="$dir/_startup.txt"
 
-	echo
-
-	declare -a appslist
-	declare -a apps
 	let i=0
 	while IFS='\n' read -r line_data; do
 		IFS='| ' read -r -a array <<< ${line_data} # split our line by the pipe (|)
 		
-		apps[i]="${array[0]}"
-		appslist[i]="${array[1]}"
+		startup_apps[i]="${array[0]}"
+		startup_appslist[i]="${array[1]}"
 		((++i))		
 	done < $startupfile
+}
 
-	printf "${apps}"
+startup_read() {
+	load_startup_apps
+	
 	echo
-	printf "${appslist}"
+	printf "${startup_apps}"
+	echo
+	printf "${startup_appslist}"
 	echo
 }
 
