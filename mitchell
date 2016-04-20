@@ -62,25 +62,24 @@ declare -a startup_apps
 startup_add() {
 	dir=`dirname $0`
 	file="$dir/_startup.txt"
-#check_args "$@"
-echo "startup config"
-echo "$@"
 
-	echo	
-#	echo -n "Enter your App Name: "
-#	read name
+	echo
+	echo "Mitchell Startup Add"
+	echo
+	echo -n "Enter your App Name: "
+	read name
 
-#	echo -n "Enter your App Path: "
-#	read path
+	echo -n "Enter your App Path: "
+	read path
 	
-#	if [ "$name" == "" ] || [ "$path" == "" ]; then
-#		echo "One of your inputs was blank. Please try again."
-#	else
-#		echo "Storing data..."
-#		echo "$name | $path" >> $file
-#		echo
-#		echo 'Startup Updated!'
-#	fi
+	if [ "$name" == "" ] || [ "$path" == "" ]; then
+		echo "One of your inputs was blank. Please try again."
+	else
+		echo "Storing data..."
+		echo "$name | $path" >> $file
+		echo
+		echo 'Startup Updated!'
+	fi
 }
 
 load_startup_apps() {
@@ -136,7 +135,6 @@ startup() {
 	
 	echo
 	echo "Finished. Enjoy!"	
-	
 }
 
 show_commands() {
