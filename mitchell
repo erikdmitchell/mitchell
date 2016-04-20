@@ -16,9 +16,7 @@ beer() {
 help() {
 	cat <<HELP
 	
-	OPTIONS:
-		--help
-		--version
+For a list of commands type $ mitchell show_commands
 	
 HELP
 }
@@ -128,7 +126,15 @@ load_startup_apps() {
 }
 
 show_commands() {
-	echo "COMMANDS"
+cat <<COMMANDS
+
+COMMANDS:
+	beer			Drink it!
+	startup_config		View apps in startup
+	startup_add		Add a line (app) to startup
+	startup_remove		Remove a line (app) from startup
+
+COMMANDS
 }
 
 version() {
