@@ -56,6 +56,50 @@ help() {
 HELP
 }
 
+startup_add() {
+	dir=`dirname $0`
+	file="$dir/_startup.txt"
+
+	echo	
+	echo -n "Enter your App Name: "
+	read name
+
+	echo -n "Enter your App Path: "
+	read path
+	
+	if [ "$name" == "" ] || [ "$path" == "" ]; then
+		echo "One of your inputs was blank. Please try again."
+	else
+		echo "Storing data..."
+		echo "$name | $path" >> $file
+		echo
+		echo 'Startup Updated!'
+	fi
+}
+
+startup_read() {
+	dir=`dirname $0`
+	startupfile="$dir/_startup.txt"
+
+	echo
+
+	declare -a appslist
+	declare -a apps
+	let i=0
+	while IFS='\n' read -r line_data; do
+		IFS='| ' read -r -a array <<< ${line_data} # split our line by the pipe (|)
+		
+		apps[i]="${array[0]}"
+		appslist[i]="${array[1]}"
+		((++i))		
+	done < $startupfile
+
+	printf "${apps}"
+	echo
+	printf "${appslist}"
+	echo
+}
+
 show_commands() {
 	echo "COMMANDS"
 }
