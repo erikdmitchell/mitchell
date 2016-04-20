@@ -88,8 +88,8 @@ load_startup_apps() {
 	while IFS='\n' read -r line_data; do
 		IFS='| ' read -r -a array <<< ${line_data} # split our line by the pipe (|)
 		
-		startup_apps[i]="${array[0]}"
-		startup_appslist[i]="${array[1]}"
+		startup_appslist[i]="${array[0]}"
+		startup_apps[i]="${array[1]}"
 		((++i))		
 	done < $startupfile
 }
@@ -98,10 +98,38 @@ startup_read() {
 	load_startup_apps
 	
 	echo
-	printf "${startup_apps}"
-	echo
 	printf "${startup_appslist}"
 	echo
+	printf "${startup_apps}"
+	echo
+}
+
+startup() {
+	load_startup_apps
+	
+	echo
+	echo "This script opens several applications."
+	echo
+	echo "Programs to open:"
+	echo
+	
+	for i in "${startup_appslist[@]}"
+	do
+	   echo $i
+	done
+	
+	echo
+	echo "Opening up start up applications…"
+	echo
+	
+	for ((i = 0; i < ${#startup_apps[@]}; i++))
+	do
+		open -a "${startup_apps[$i]}"
+	done
+	
+	echo
+	echo "Finished. Enjoy!"	
+	
 }
 
 show_commands() {
