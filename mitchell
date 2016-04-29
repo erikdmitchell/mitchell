@@ -40,7 +40,7 @@ startup_add() {
 		echo "One of your inputs was blank. Please try again."
 	else
 		echo "Storing data..."
-		echo "$name | $path" >> $file
+		echo "$name | '$path'" >> $file
 		echo
 		echo "Startup Updated!"
 	fi
@@ -76,10 +76,20 @@ startup_config() {
 	echo "Mitchell Startup Config"
 	echo
 	echo "Apps List:"
-	printf "${startup_appslist}\n"
+	
+	for i in "${startup_appslist[@]}"
+	do
+	   echo $i
+	done
+	
 	echo 
 	echo "Apps: "
-	printf "${startup_apps}\n"
+	
+	for ((i = 0; i < ${#startup_apps[@]}; i++))
+	do
+	   echo "${startup_apps[$i]}"
+	done
+	
 	echo
 }
 
@@ -116,12 +126,14 @@ load_startup_apps() {
 
 	let i=0
 	while IFS='\n' read -r line_data; do
-		IFS='| ' read -r -a array <<< ${line_data} # split our line by the pipe (|)
+		OIFS=$IFS;
+		IFS="|";
+		array=($line_data);
 		
 		startup_appslist[i]="${array[0]}"
 		startup_apps[i]="${array[1]}"
 		((++i))		
-	done < $startupfile
+	done < $startupfile	
 }
 
 show_commands() {
