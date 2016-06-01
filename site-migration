@@ -1,0 +1,123 @@
+#!/bin/bash
+
+# A bash script for migrating sites via MT - generates output to be used
+
+version_number=0.1.0
+wp_dbname=''
+wp_dbuser=''
+wp_dbpass=''
+wp_admin_user=''
+wp_admin_password=''
+wp_admin_email=''
+url=''
+title=''
+new_path=''
+old_path=''
+server_group=''
+new_ftp_user=''
+
+# set colors #
+if [[ ! -z $(which tput 2>/dev/null) ]]; then
+	normal=$(tput sgr0)
+	bold=$(tput bold)
+	red=$(tput setaf 1)
+	green=$(tput setaf 2)
+	yellow=$(tput setaf 3)
+fi
+
+# primary function - setups our variables #
+run() {
+	echo
+
+	echo -n "Enter root path to ${bold}NEW ${normal}WordPress install: "
+	read new_path
+
+	echo -n "Enter root path to ${bold}OLD ${normal}WordPress install (if installed in a subfolder ie /wp/, include that): "
+	read old_path
+
+	echo -n "Enter FTP username for NEW site: "
+	read new_ftp_user
+
+	echo -n "Enter (new) server group (ie pascln): "
+	read server_group
+
+	echo -n "Enter site URL: ”
+	read url
+
+	echo -n "Enter site title: ”
+	read title
+
+	echo -n "Enter db name: "
+	read dbname
+
+	echo -n "Enter db user: "
+	read dbuser
+
+	echo -n "Enter db password: "
+	read dbpass
+
+	echo -n "Enter admin username: "
+	read wp_admin_user
+
+	echo -n "Enter admin password: "
+	read wp_admin_password
+
+	echo -n "Enter admin email: "
+	read wp_admin_email
+
+	wp_core
+	migrate_wp_content
+	wp_db_migration
+
+#if wp
+#search and replace
+# : wp search-replace /wp /
+#	wp search-replace //-content/ /wp-content/
+
+#httpdocs*
+
+#404 error - hosting settings - preferred domain
+
+#Settings > Permalinks > Save Changes
+
+}
+
+# outputs our wp core stuff #
+wp_core() {
+	echo "cd $new_path"
+	echo "wp core download"
+	echo "wp core config --dbname=$wp_dbname --dbuser=$wp_dbuser --dbpass=$wp_dbpass"
+	echo "wp core install --url=$url --title='$title' --admin_user=$wp_admin_user --admin_password=$wp_admin_password --admin_email=$wp"
+}
+
+# migrates the wp-content folder and fixes potential permissions issue #
+migrate_wp_content() {
+	echo "cd $old_path"
+	echo "yes | cp -r * $new_path"
+	echo "cd $new_path"
+	echo "chown -R $new_ftp_user:$server_group *;chmod -R 755 wp-content/uploads;"  #fix permission if your in the root website directory.
+}
+
+# wp cli database export / import #
+wp_db_migration() {
+	echo "cd $old_path"
+	echo "wp db export -> '{dbname}.sql' (defaults)"
+	echo "cd $new_path"
+	echo "wp db import -> '{dbname}.sql' (defaults)"
+}
+
+check_args() {
+	if [ ! -z "$1" ]; then
+		"$1"
+	else
+		run
+	fi
+}
+
+main() {
+	check_args "$@"
+}
+
+if [[ "${BASH_SOURCE[0]}" = "${0}" ]]; then
+	main "$@"
+fi
