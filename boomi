@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# A bash script for awesomeness
+
+version_number=0.1.0
+
+about() {
+	logo
+}
+
+beer() {
+	echo 'beer'
+}
+
+version() {
+	logo
+	echo "boomi version $version_number"
+}
+
+check_args() {
+	if [ ! -z "$1" ]; then 
+		"$1"
+    else
+        about
+	fi
+}
+
+logo() {
+	cat <<BOOMILOGO
+
+BOOMI
+
+BOOMILOGO
+}
+
+cms() {
+    cp -R Users/erikmitchell/vagrant-local/www/boomi/public_html/wp-content/plugins/boomi-cms /Users/erikmitchell/boomi/wp-content/plugins/boomi-cms
+}
+
+main() {                          
+	check_args "$@"
+}
+
+if [[ "${BASH_SOURCE[0]}" = "${0}" ]]; then
+	main "$@"
+fi
