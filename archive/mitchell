@@ -1,0 +1,192 @@
+#!/bin/bash
+
+# A bash script for awesomeness
+
+version_number=0.1.1
+declare -a startup_appslist
+declare -a startup_apps
+
+about() {
+	mitchell_logo
+	echo 'awesomeness'
+}
+
+beer() {
+	echo 'beer'
+}
+
+help() {
+	cat <<HELP
+	
+For a list of commands type $ mitchell show_commands
+	
+HELP
+}
+
+startup_add() {
+	dir=`dirname $0`
+	file="$dir/_startup.txt"
+
+	echo
+	echo "Mitchell Startup Add"
+	echo
+	echo -n "Enter your App Name: "
+	read name
+
+	echo -n "Enter your App Path: "
+	read path
+	
+	if [ "$name" == "" ] || [ "$path" == "" ]; then
+		echo "One of your inputs was blank. Please try again."
+	else
+		echo "Storing data..."
+		echo "$name | '$path'" >> $file
+		echo
+		echo "Startup Updated!"
+	fi
+}
+
+startup_remove() {
+	dir=`dirname $0`
+	file="$dir/_startup.txt"
+
+	echo
+	echo "Mitchell Startup Remove"
+	echo
+	echo -n "Enter your App Name: "
+	read name
+
+	#echo -n "Enter your App Path: "
+	#read path
+	
+	if [ "$name" == "" ]; then
+		echo "You must enter an App name to remove. Please try again."
+	else
+		sed -i '' "/$name/d" $file
+		echo "$name removed."
+	fi
+	
+	
+}
+
+startup_config() {
+	load_startup_apps
+	
+	echo
+	echo "Mitchell Startup Config"
+	echo
+	echo "Apps List:"
+	
+	for i in "${startup_appslist[@]}"
+	do
+	   echo $i
+	done
+	
+	echo 
+	echo "Apps: "
+	
+	for ((i = 0; i < ${#startup_apps[@]}; i++))
+	do
+	   echo "${startup_apps[$i]}"
+	done
+	
+	echo
+}
+
+startup() {
+	load_startup_apps
+	
+	echo
+	echo "This script opens several applications."
+	echo
+	echo "Programs to open:"
+	echo
+	
+	for i in "${startup_appslist[@]}"
+	do
+	   echo $i
+	done
+	
+	echo
+	echo "Opening up start up applications…"
+	echo
+	
+	for ((i = 0; i < ${#startup_apps[@]}; i++))
+	do
+		open -a "${startup_apps[$i]}"
+	done
+	
+	echo
+	
+	echo -n "If you have vv and vagrant installed, would you like to run it?"
+	read run_vagrant
+	
+	if [ "$run_vagrant" == "y" ]; then
+		run_vagrant
+	fi
+	
+	echo
+	echo "Finished. Enjoy!"	
+}
+
+load_startup_apps() {
+	dir=`dirname $0`
+	startupfile="$dir/_startup.txt"
+
+	let i=0
+	while IFS='\n' read -r line_data; do
+		OIFS=$IFS;
+		IFS="|";
+		array=($line_data);
+		
+		startup_appslist[i]="${array[0]}"
+		startup_apps[i]="${array[1]}"
+		((++i))		
+	done < $startupfile	
+}
+
+show_commands() {
+cat <<COMMANDS
+
+COMMANDS:
+	beer			Drink it!
+	startup_config		View apps in startup
+	startup_add		Add a line (app) to startup
+	startup_remove		Remove a line (app) from startup
+
+COMMANDS
+}
+
+runvagrant() {
+	eval vv vagrant up
+}
+
+version() {
+	mitchell_logo
+	echo "mitchell version $version_number"
+}
+
+check_args() {
+	if [ ! -z "$1" ]; then 
+		"$1"
+	fi
+}
+
+mitchell_logo() {
+	cat <<MITCHELLTEXT
+  __  __ _ _       _          _ _ 
+ |  \/  (_) |_ ___| |__   ___| | |
+ | |\/| | | __/ __| '_ \ / _ \ | |
+ | |  | | | || (__| | | |  __/ | |
+ |_|  |_|_|\__\___|_| |_|\___|_|_|
+
+MITCHELLTEXT
+}
+
+main() {                          
+	check_args "$@"
+}
+
+if [[ "${BASH_SOURCE[0]}" = "${0}" ]]; then
+	main "$@"
+fi
