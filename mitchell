@@ -3,8 +3,6 @@
 # A bash script for awesomeness
 
 version_number=0.1.1
-declare -a startup_appslist
-declare -a startup_apps
 
 about() {
 	mitchell_logo
