@@ -1,6 +1,8 @@
 # Mitchell
 A bash script for the ~~masses~~ me!
 
+**Version:** 0.1.1
+
 ## Setup
 `git clone https://github.com/erikdmitchell/mitchell.git
 `
